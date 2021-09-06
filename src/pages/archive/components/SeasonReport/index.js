@@ -1,28 +1,32 @@
 import React from "react";
+import Table from "../../../../components/Table";
+
+const columns = [
+  {
+    path: "round",
+    label: "Round / Race",
+  },
+  {
+    path: "winner",
+    label: "Winner",
+  },
+  {
+    path: "automake",
+    label: "Auto Make",
+  },
+];
+
+const data = [
+  {
+    round: 1,
+    winner: "john",
+    automake: "audi",
+  },
+];
 
 const SeasonReport = () => (
   <div className="col-md-8 col-xs-12">
-    <table className="table">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>First</th>
-          <th>Last</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr>
-          <td>Mark</td>
-          <td>Otto</td>
-          <td>@mdo</td>
-        </tr>
-        <tr>
-          <td>Jacob</td>
-          <td>Thornton</td>
-          <td>@fat</td>
-        </tr>
-      </tbody>
-    </table>
+    <Table columns={columns} data={data} />
   </div>
 );
 
