@@ -1,10 +1,20 @@
-import React from "react";
+import React, { useEffect } from "react";
+import useApi from "../../hooks/useApi";
+import seasonsAPi from "../../api/seasons";
 import { SeasonList, SeasonReport } from "./components";
 
 const Archive = () => {
+  const getSeasonsApi = useApi(seasonsAPi.getSeasons);
+
+  useEffect(() => {
+    getSeasonsApi.request();
+  }, []);
+
   return (
     <>
-      <SeasonList />
+      <SeasonList
+        data={getSeasonsApi?.data?.MRData?.StandingsTable?.StandingsLists || []}
+      />
       <SeasonReport />
     </>
   );
