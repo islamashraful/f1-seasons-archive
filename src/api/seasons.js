@@ -1,6 +1,6 @@
 import client from "./client";
 
-const endPoint = "/f1/driverStandings/1.json?limit=15&offset=55";
+const endPoint = "/f1/driverStandings/1.json?limit=16&offset=55";
 
 const getSeasons = () => client.get(endPoint);
 
