@@ -1,33 +1,41 @@
 import React from "react";
 import Table from "../../../../components/Table";
 
-const columns = [
-  {
-    path: "round",
-    label: "Round / Race",
-  },
-  {
-    path: "winner",
-    label: "Winner",
-  },
-  {
-    path: "automake",
-    label: "Auto Make",
-  },
-];
+const SeasonReport = ({ data }) => {
+  const columns = [
+    {
+      label: "Round / Race",
+      path: "round",
+      content: (raceInfo) => (
+        <div>
+          Round {raceInfo.round}: {raceInfo.raceName}
+        </div>
+      ),
+    },
+    {
+      label: "Winner",
+      path: "winner",
+      content: (raceInfo) => (
+        <div>
+          {raceInfo?.Results?.[0]?.Driver?.givenName}{" "}
+          {raceInfo?.Results?.[0]?.Driver?.familyName}
+        </div>
+      ),
+    },
+    {
+      label: "Auto Make",
+      path: "auto",
+      content: (raceInfo) => (
+        <div>{raceInfo?.Results?.[0]?.Constructor?.name}</div>
+      ),
+    },
+  ];
 
-const data = [
-  {
-    round: 1,
-    winner: "john",
-    automake: "audi",
-  },
-];
-
-const SeasonReport = () => (
-  <div className="col-md-8 col-xs-12">
-    <Table columns={columns} data={data} />
-  </div>
-);
+  return (
+    <div className="col-md-8 col-xs-12">
+      <Table columns={columns} data={data} />
+    </div>
+  );
+};
 
 export default SeasonReport;
