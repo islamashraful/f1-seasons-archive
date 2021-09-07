@@ -1,42 +1,18 @@
-import React from "react";
-import ListGroup from "../../../../components/ListGroup";
+import React, { useMemo } from "react";
+import { ListGroup, LoadingIndicator } from "../../../../components";
+import { getListItems } from "./helper";
+import "./styles.css";
 
-const defaultClassName =
-  "list-group-item d-flex justify-content-between align-items-start";
-
-const getClassName = (current, selected) =>
-  current === selected ? `${defaultClassName} active` : defaultClassName;
-
-const SeasonList = ({ data, selectedSeason, onChangeSeason }) => {
-  const items = data?.map((item, index) => ({
-    content: (
-      <li
-        className={getClassName(item.season, selectedSeason)}
-        key={index + item.season}
-      >
-        <div
-          className="ms-2 me-auto"
-          onClick={() => onChangeSeason(item.season)}
-        >
-          <p className="lead mb-1">
-            <i className="bi bi-trophy me-1"></i>
-            {`${item?.DriverStandings?.[0]?.Driver?.givenName} ${item?.DriverStandings?.[0]?.Driver?.familyName}`}
-          </p>
-          <p className="font-monospace mb-0">
-            <i className="bi bi-calendar3 me-1"></i>
-            {item.season}
-          </p>
-        </div>
-        <p className="fs-5 text-primary">
-          {item?.DriverStandings?.[0].Constructors?.[0].name}
-        </p>
-      </li>
-    ),
-  }));
+const SeasonList = ({ data, selectedSeasonInfo, loading, onChangeSeason }) => {
+  const items = useMemo(
+    () => getListItems(data, selectedSeasonInfo?.season, onChangeSeason),
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [selectedSeasonInfo?.season, data]
+  );
 
   return (
     <div className="col-md-4 col-xs-12">
-      <ListGroup items={items} />
+      {loading ? <LoadingIndicator /> : <ListGroup items={items} />}
     </div>
   );
 };

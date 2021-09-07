@@ -1,39 +1,29 @@
-import React from "react";
-import Table from "../../../../components/Table";
+import React, { useMemo } from "react";
+import { Table, LoadingIndicator } from "../../../../components";
+import { getSeasonReportCols } from "./helper";
 
-const SeasonReport = ({ data }) => {
-  const columns = [
-    {
-      label: "Round / Race",
-      path: "round",
-      content: (raceInfo) => (
-        <div>
-          Round {raceInfo.round}: {raceInfo.raceName}
-        </div>
-      ),
-    },
-    {
-      label: "Winner",
-      path: "winner",
-      content: (raceInfo) => (
-        <div>
-          {raceInfo?.Results?.[0]?.Driver?.givenName}{" "}
-          {raceInfo?.Results?.[0]?.Driver?.familyName}
-        </div>
-      ),
-    },
-    {
-      label: "Auto Make",
-      path: "auto",
-      content: (raceInfo) => (
-        <div>{raceInfo?.Results?.[0]?.Constructor?.name}</div>
-      ),
-    },
-  ];
+const SeasonReport = ({ data, championId, loading }) => {
+  const columns = useMemo(() => getSeasonReportCols(championId), [championId]);
+  const tableData = useMemo(
+    () =>
+      data.map((item) => ({
+        ...item,
+        rowHighlighted: item?.Results?.[0]?.Driver?.driverId === championId,
+      })),
+    [championId, data]
+  );
 
   return (
     <div className="col-md-8 col-xs-12">
-      <Table columns={columns} data={data} />
+      {loading && <LoadingIndicator />}
+
+      {!championId && (
+        <h1 className="display-6">Click on a season to see races</h1>
+      )}
+
+      {!loading && !!data.length && (
+        <Table columns={columns} data={tableData} />
+      )}
     </div>
   );
 };
