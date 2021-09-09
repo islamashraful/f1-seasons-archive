@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import useApi from "../../hooks/useApi";
 import seasonsAPi from "../../api/seasons";
 import racesAPi from "../../api/races";
+import Constants from "../../config/const";
 import { SeasonList, SeasonReport } from "./components";
 
 const Archive = () => {
@@ -10,15 +11,19 @@ const Archive = () => {
   const getRacesApi = useApi(racesAPi.getRacesForYear);
 
   useEffect(() => {
-    getSeasonsApi.request();
+    const { LIMIT, OFFSET } = Constants;
+    getSeasonsApi.request(LIMIT, OFFSET);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
-  const handleChangeSeason = (seasonInfo) => {
-    setSelectedSeasonInfo(seasonInfo);
+  const handleChangeSeason = useCallback((seasonInfo) => {
+    if (seasonInfo.season !== selectedSeasonInfo?.season) {
+      setSelectedSeasonInfo(seasonInfo);
 
-    getRacesApi.request(seasonInfo.season);
-  };
+      getRacesApi.request(seasonInfo.season);
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <>
