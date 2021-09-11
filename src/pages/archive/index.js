@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import useApi from "../../hooks/useApi";
+import { useApi, useIsMountedRef } from "../../hooks";
 import seasonsAPi from "../../api/seasons";
 import racesAPi from "../../api/races";
 import Constants from "../../config/const";
@@ -9,10 +9,14 @@ const Archive = () => {
   const [selectedSeasonInfo, setSelectedSeasonInfo] = useState(null);
   const getSeasonsApi = useApi(seasonsAPi.getSeasons);
   const getRacesApi = useApi(racesAPi.getRacesForYear);
+  const isMountedRef = useIsMountedRef();
 
   useEffect(() => {
-    const { LIMIT, OFFSET } = Constants;
-    getSeasonsApi.request(LIMIT, OFFSET);
+    if (isMountedRef.current) {
+      const { LIMIT, OFFSET } = Constants;
+      getSeasonsApi.request(LIMIT, OFFSET);
+    }
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
