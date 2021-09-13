@@ -3,6 +3,7 @@ import { useApi, useIsMountedRef } from "../../hooks";
 import seasonsAPi from "../../api/seasons";
 import racesAPi from "../../api/races";
 import Constants from "../../config/const";
+import { Alert } from "../../components";
 import { SeasonList, SeasonReport } from "./components";
 
 const Archive = () => {
@@ -28,6 +29,10 @@ const Archive = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
+
+  if (getSeasonsApi.error || getRacesApi.error) {
+    return <Alert />;
+  }
 
   return (
     <>
