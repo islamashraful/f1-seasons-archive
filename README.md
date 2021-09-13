@@ -21,6 +21,9 @@ const AppConstant = {
 - [Bootstrap Icons](https://icons.getbootstrap.com/) for icons.
 - [Apisauce](https://github.com/infinitered/apisauce) as http client.
 - [classnames](https://www.npmjs.com/package/classnames) for className helper.
+- [Jest](https://jestjs.io/) as testing framework.
+- [Testing Library](https://testing-library.com/) for testing utilities.
+- [Mock Service Worker(MSW)](https://mswjs.io/) for API mocking utilities.
 
 ## Available Scripts
 
@@ -35,6 +38,10 @@ Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
 
 Builds the app for production to the `build` folder.
 
-### `yarn eject`
+### `npm eject`
 
 Eject the application.
+
+### `npm test`
+
+Launches the test runner in the interactive watch mode.
