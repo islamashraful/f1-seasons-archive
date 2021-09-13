@@ -1,5 +1,13 @@
+import { rest } from "msw";
+import { server } from "../../../mocks/server";
+import {
+  render,
+  waitFor,
+  cleanup,
+  fireEvent,
+  screen,
+} from "@testing-library/react";
 import Archive from "../index";
-import { render, waitFor, cleanup, fireEvent } from "@testing-library/react";
 
 afterEach(cleanup);
 
@@ -33,5 +41,21 @@ describe("Archive", () => {
 
     const raceTable = await waitFor(() => getByRole("table"));
     expect(raceTable).not.toBeNull();
+  });
+
+  test("error response from server for getting seasons information", async () => {
+    server.resetHandlers(
+      rest.get(
+        "http://ergast.com/api/f1/driverStandings/1.json",
+        (_, res, ctx) => res(ctx.status(500))
+      )
+    );
+
+    render(<Archive />);
+
+    const alert = await screen.findByRole("alert");
+    expect(alert).toHaveTextContent(
+      "An unexpected error occurred. Please try again later."
+    );
   });
 });
